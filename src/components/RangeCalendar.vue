@@ -95,14 +95,14 @@
       },
     },
     data() {
-      const selectedEnd = new Date(this.endDate).getTime() > new Date(this.maxDate).getTime()
-        ? new Date(this.maxDate).toLocaleDateString() : new Date(this.endDate).toLocaleDateString();
-      console.log(selectedEnd);
+      const selectedEnd = this.formatDate(new Date(this.endDate).getTime() > new Date(this.maxDate).getTime() ? this.maxDate : this.endDate);
+      const selectedStart = this.formatDate(new Date(this.startDate).getTime() > new Date(this.minDate).getTime() ? this.startDate : this.minDate);
+
       return {
         totalMonthList: [],
-        selectedStart: new Date(this.startDate).toLocaleDateString(),
+        selectedStart: selectedStart,
         selectedEnd: selectedEnd,
-        latestStartDate: new Date(this.startDate).toLocaleDateString(),
+        latestStartDate: selectedStart,
         latestEndDate: selectedEnd,
         tipVisible: false,
       };
@@ -130,7 +130,8 @@
         }, 0);
       },
       scrollIntoView() {
-        document.querySelector('.select-start').scrollIntoView();
+        const startEle = document.querySelector('.select-start');
+        startEle && startEle.scrollIntoView();
       },
       getMonthDates(year = currentFullYear, month = currentMonth) {
         let dayCountInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -230,6 +231,10 @@
           cursor = new Date(curMonth > 11 ? curYear + 1 : curYear, curMonth > 11 ? curMonth % 12 : curMonth);
         }
         return result;
+      },
+      formatDate(date = new Date()) {
+        date = new Date(date);
+        return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
       },
     },
   };

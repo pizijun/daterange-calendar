@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <button @click="handleOpen" class="btn">选择日期</button>
-    <range-calendar v-model="show" :show-tip="true" min-date="2019-09-09" max-date="2021-09-09" end-date="2022-01-01">
+    <range-calendar v-model="show" :show-tip="true" @range-pick="handlePick">
     </range-calendar>
   </div>
 </template>
@@ -22,6 +22,9 @@ export default {
   methods: {
     handleOpen() {
       this.show = !this.show;
+    },
+    handlePick(val) {
+      console.log(val);
     },
   },
 }
